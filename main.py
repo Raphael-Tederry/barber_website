@@ -185,11 +185,15 @@ async def confirm_page(request: Request, booking_id: str, lang: str = "en"):
 
 if __name__ == "__main__":
     try:
-        print("🚀 Starting Elite Barbershop website...")
-        print("📍 Server: http://localhost:8000")
+        print("-" * 40)
+        print("🚀 Starting Elite Barbershop Website")
+        print("📍 URL: http://localhost:8000")
         print("⌨️  Press Ctrl+C to stop")
         print("-" * 40)
-        uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+        
+        # Use PORT environment variable for Render deployment
+        port = int(os.getenv("PORT", 8000))
+        uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
     except KeyboardInterrupt:
         print("\n🔄 Shutting down gracefully...")
         print("✅ Barbershop website stopped.")
