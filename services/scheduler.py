@@ -1,5 +1,5 @@
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 import os
 from datetime import datetime, timedelta
 from typing import List, Dict
@@ -24,11 +24,11 @@ class SchedulerService:
                 # Try to parse as JSON string first
                 try:
                     credentials_dict = json.loads(credentials_json)
-                    creds = ServiceAccountCredentials.from_json_keyfile_dict(credentials_dict, scope)
+                    creds = Credentials.from_service_account_info(credentials_dict, scopes=scope)
                 except json.JSONDecodeError:
                     # If it's not JSON, treat as file path (backward compatibility)
                     if os.path.exists(credentials_json):
-                        creds = ServiceAccountCredentials.from_json_keyfile_name(credentials_json, scope)
+                        creds = Credentials.from_service_account_file(credentials_json, scopes=scope)
                     else:
                         raise Exception("Invalid credentials format")
                 
