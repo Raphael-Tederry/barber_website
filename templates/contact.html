@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}{{ texts.contact_title }} - {{ shop_info.name_he if lang == 'he' else shop_info.name_en }}{% endblock %}
+
+{% block content %}
+<!-- Contact Hero -->
+<section class="section" style="padding-top: 8rem;">
+    <div class="container">
+        <h1 class="section-title">{{ texts.contact_title }}</h1>
+        <p class="text-center" style="font-size: 1.2rem; color: #666; margin-bottom: 3rem;">{{ texts.contact_subtitle }}</p>
+    </div>
+</section>
+
+<!-- Contact Information -->
+<section class="section">
+    <div class="container">
+        <div class="contact-info">
+            <!-- Address -->
+            <div class="contact-card">
+                <h3>{{ texts.address_title }}</h3>
+                <p><strong>{{ shop_info.address.address_he if lang == 'he' else shop_info.address.address_en }}</strong></p>
+                <a href="https://maps.google.com/?q={{ shop_info.address.street }} {{ shop_info.address.house_number }}, {{ shop_info.address.city }}" 
+                   target="_blank" class="btn btn-outline" style="margin-top: 1rem;">
+                    {{ texts.directions }}
+                </a>
+            </div>
+            
+            <!-- Opening Hours -->
+            <div class="contact-card">
+                <h3>{{ texts.hours_title }}</h3>
+                <p><strong>{{ texts.mon_fri }}:</strong> {{ shop_info.working_hours.start }} - {{ shop_info.working_hours.end }}</p>
+                <p><strong>{{ texts.sunday }}:</strong> {{ shop_info.working_hours.start }} - {{ shop_info.working_hours.end }}</p>
+                <p><strong>{{ texts.saturday }}:</strong> {{ texts.closed }}</p>
+            </div>
+            
+            <!-- Contact Details -->
+            <div class="contact-card">
+                <h3>{{ texts.contact_info_title }}</h3>
+                <p><strong>{{ texts.phone }}:</strong> 
+                   <a href="tel:{{ shop_info.contact.phone }}" style="color: #d4af37;">{{ shop_info.contact.phone }}</a>
+                </p>
+                <p><strong>{{ texts.email }}:</strong> 
+                   <a href="mailto:{{ shop_info.contact.email }}" style="color: #d4af37;">{{ shop_info.contact.email }}</a>
+                </p>
+                <p><strong>
+                    {% if lang == 'he' %}
+                        בעלים:
+                    {% else %}
+                        Owner:
+                    {% endif %}
+                </strong> {{ shop_info.owner_name }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Google Maps -->
+<section class="section" style="background: white;">
+    <div class="container">
+        <div class="map-container">
+            <iframe 
+                src="https://www.google.com/maps/embed/v1/place?key=YOUR_GOOGLE_MAPS_API_KEY&q={{ shop_info.address.street }}+{{ shop_info.address.house_number }},+{{ shop_info.address.city }}"
+                width="100%" 
+                height="400" 
+                style="border:0;" 
+                allowfullscreen="" 
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+            
+            <!-- Fallback for when Maps API is not available -->
+            <div style="background: #f8f9fa; padding: 3rem; text-align: center; border-radius: 15px;">
+                <h3 style="margin-bottom: 1rem; color: #2c3e50;">
+                    {% if lang == 'he' %}
+                        מפה תגיע בקרוב
+                    {% else %}
+                        Map Coming Soon
+                    {% endif %}
+                </h3>
+                <p style="color: #666; margin-bottom: 2rem;">
+                    {% if lang == 'he' %}
+                        בינתיים, השתמש בכפתור "קבל הוראות נסיעה" למעלה
+                    {% else %}
+                        In the meantime, use the "Get Directions" button above
+                    {% endif %}
+                </p>
+                <a href="https://maps.google.com/?q={{ shop_info.address.street }} {{ shop_info.address.house_number }}, {{ shop_info.address.city }}" 
+                   target="_blank" class="btn">
+                    {{ texts.directions }}
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="section">
+    <div class="container text-center">
+        <h2>{{ texts.book_appointment }}</h2>
+        <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">
+            {% if lang == 'he' %}
+                מוכן לקבוע תור? בוא נדאג לך למראה מושלם!
+            {% else %}
+                Ready to book an appointment? Let us take care of your perfect look!
+            {% endif %}
+        </p>
+        <a href="{{ url_for('home') }}?lang={{ lang }}#booking" class="btn">{{ texts.book_appointment }}</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}{{ texts.products_title }} - {{ shop_info.name_he if lang == 'he' else shop_info.name_en }}{% endblock %}
+
+{% block content %}
+<!-- Products Hero -->
+<section class="section" style="padding-top: 8rem;">
+    <div class="container">
+        <h1 class="section-title">{{ texts.products_title }}</h1>
+        <p class="text-center" style="font-size: 1.2rem; color: #666; margin-bottom: 3rem;">{{ texts.products_subtitle }}</p>
+    </div>
+</section>
+
+<!-- Hair Care Products -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">{{ texts.hair_products }}</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-info">
+                    <div class="product-category">{{ texts.hair_products }}</div>
+                    <h3>Premium Hair Pomade</h3>
+                    <p>{{ texts.product_1 }}</p>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-info">
+                    <div class="product-category">{{ texts.hair_products }}</div>
+                    <h3>Hair Wax</h3>
+                    <p>{{ texts.product_3 }}</p>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-info">
+                    <div class="product-category">{{ texts.hair_products }}</div>
+                    <h3>Shampoo & Conditioner Set</h3>
+                    <p>{{ texts.product_5 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Beard Care Products -->
+<section class="section" style="background: white;">
+    <div class="container">
+        <h2 class="section-title">{{ texts.beard_products }}</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-info">
+                    <div class="product-category">{{ texts.beard_products }}</div>
+                    <h3>Beard Oil</h3>
+                    <p>{{ texts.product_2 }}</p>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-info">
+                    <div class="product-category">{{ texts.beard_products }}</div>
+                    <h3>Beard Balm</h3>
+                    <p>{{ texts.product_6 }}</p>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-info">
+                    <div class="product-category">{{ texts.styling_products }}</div>
+                    <h3>Aftershave Balm</h3>
+                    <p>{{ texts.product_4 }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="section">
+    <div class="container text-center">
+        <h2>{{ texts.book_appointment }}</h2>
+        <p style="font-size: 1.1rem; color: #666; margin-bottom: 2rem;">
+            {% if lang == 'he' %}
+                חווה את המוצרים הטובים ביותר עם השירות המקצועי שלנו
+            {% else %}
+                Experience our premium products with our professional service
+            {% endif %}
+        </p>
+        <a href="{{ url_for('home') }}?lang={{ lang }}#booking" class="btn">{{ texts.book_appointment }}</a>
+    </div>
+</section>
+{% endblock %}

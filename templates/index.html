@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}{{ texts.hero_title }} - {{ texts.hero_subtitle }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>{{ texts.hero_title }}</h1>
+        <h2>{{ texts.hero_subtitle }}</h2>
+        <p>{{ texts.hero_description }}</p>
+        <a href="#booking" class="btn">{{ texts.book_appointment }}</a>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="section about">
+    <div class="container">
+        <h2 class="section-title">{{ texts.about_title }}</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>{{ texts.about_text }}</p>
+                
+                <h3>{{ texts.why_choose_title }}</h3>
+                <ul class="features-list">
+                    <li>{{ texts.why_choose_1 }}</li>
+                    <li>{{ texts.why_choose_2 }}</li>
+                    <li>{{ texts.why_choose_3 }}</li>
+                    <li>{{ texts.why_choose_4 }}</li>
+                </ul>
+            </div>
+            <div class="about-image">
+                <img src="{{ url_for('static', path='images/shop-interior.png') }}" 
+                     alt="{{ texts.about_title }}" 
+                     style="width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">{{ texts.our_services }}</h2>
+        <div class="services-grid">
+            {% for service_key, service in services.items() %}
+            <div class="service-card">
+                <h3>{{ service.name_he if lang == 'he' else service.name_en }}</h3>
+                <p>{{ texts['service_' + service_key + '_desc'] }}</p>
+                <div class="service-duration">{{ service.duration }} {{ texts.minutes }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Booking Section -->
+<section id="booking" class="section">
+    <div class="container">
+        <h2 class="section-title">{{ texts.booking_title }}</h2>
+        
+        <form id="bookingForm" class="booking-form">
+            <!-- Customer Information -->
+            <div class="form-group">
+                <label for="customerName">{{ texts.customer_name }}</label>
+                <input type="text" id="customerName" name="customer_name" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="customerEmail">{{ texts.customer_email }}</label>
+                <input type="email" id="customerEmail" name="customer_email" class="form-control" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="customerPhone">{{ texts.customer_phone }}</label>
+                <input type="tel" id="customerPhone" name="customer_phone" class="form-control" required>
+            </div>
+            
+            <!-- Service Selection -->
+            <div class="form-group">
+                <label>{{ texts.select_services }}</label>
+                <div class="checkbox-group">
+                    {% for service_key, service in services.items() %}
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="service_{{ service_key }}" name="services" value="{{ service_key }}">
+                        <label for="service_{{ service_key }}">
+                            {{ service.name_he if lang == 'he' else service.name_en }}
+                            <small>({{ service.duration }} {{ texts.minutes }})</small>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Date Selection -->
+            <div class="form-group">
+                <label for="date">{{ texts.select_date }}</label>
+                <input type="date" id="date" name="date" class="form-control" required>
+            </div>
+            
+            <!-- Time Selection -->
+            <div class="form-group">
+                <label>{{ texts.select_time }}</label>
+                <div id="timeSlots"></div>
+                <input type="hidden" id="selectedTime" name="time">
+            </div>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="btn">{{ texts.book_now }}</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Set language for JavaScript
+window.currentLang = '{{ lang }}';
+</script>
+{% endblock %}

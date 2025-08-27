@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="{{ 'he' if lang == 'he' else 'en' }}" {% if lang == 'he' %}dir="rtl"{% endif %}>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ shop_info.name_he if lang == 'he' else shop_info.name_en }}{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', path='images/icon.png') }}">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+    
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="{% block description %}{{ texts.hero_description }}{% endblock %}">
+    <meta name="keywords" content="barbershop, haircut, beard trim, grooming, {{ shop_info.address.city }}">
+    <meta name="author" content="{{ shop_info.owner_name }}">
+    
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="{% block og_title %}{{ shop_info.name_he if lang == 'he' else shop_info.name_en }}{% endblock %}">
+    <meta property="og:description" content="{{ texts.hero_description }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body {% if lang == 'he' %}dir="rtl"{% endif %}>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="{{ url_for('home') }}?lang={{ lang }}" class="navbar-brand">
+                {{ shop_info.name_he if lang == 'he' else shop_info.name_en }}
+            </a>
+            
+            <ul class="navbar-nav">
+                <li><a href="{{ url_for('home') }}?lang={{ lang }}" class="nav-link">{{ texts.nav_home }}</a></li>
+                <li><a href="{{ url_for('products') }}?lang={{ lang }}" class="nav-link">{{ texts.nav_products }}</a></li>
+                <li><a href="{{ url_for('contact') }}?lang={{ lang }}" class="nav-link">{{ texts.nav_contact }}</a></li>
+                <li>
+                    <a href="?lang={{ 'en' if lang == 'he' else 'he' }}" 
+                       class="nav-link language-toggle">
+                        {{ texts.nav_language }}
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 {{ shop_info.name_he if lang == 'he' else shop_info.name_en }}. All rights reserved.</p>
+            <p>{{ shop_info.address.address_he if lang == 'he' else shop_info.address.address_en }} | {{ shop_info.contact.phone }} | {{ shop_info.contact.email }}</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', path='js/main.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

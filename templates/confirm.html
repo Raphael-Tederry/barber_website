@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block title %}{{ texts.confirm_title }} - {{ shop_info.name_he if lang == 'he' else shop_info.name_en }}{% endblock %}
+
+{% block content %}
+<!-- Confirmation Section -->
+<section class="section" style="padding-top: 8rem; min-height: 80vh; display: flex; align-items: center;">
+    <div class="container">
+        <div style="max-width: 500px; margin: 0 auto;">
+            <h1 class="section-title">{{ texts.confirm_title }}</h1>
+            <p class="text-center" style="font-size: 1.1rem; color: #666; margin-bottom: 3rem;">{{ texts.confirm_subtitle }}</p>
+            
+            <form id="confirmForm" class="booking-form">
+                <input type="hidden" name="booking_id" value="{{ booking_id }}">
+                
+                <div class="form-group">
+                    <label for="confirmationCode">{{ texts.confirmation_code }}</label>
+                    <input type="text" 
+                           id="confirmationCode" 
+                           name="confirmation_code" 
+                           class="form-control" 
+                           placeholder="XXXXXX"
+                           style="text-align: center; font-size: 1.5rem; font-weight: bold; letter-spacing: 3px; text-transform: uppercase;"
+                           maxlength="6"
+                           required>
+                    <small style="color: #666; margin-top: 0.5rem; display: block;">
+                        {% if lang == 'he' %}
+                            הזן את הקוד בן 6 התווים שנשלח לאימייל שלך
+                        {% else %}
+                            Enter the 6-character code sent to your email
+                        {% endif %}
+                    </small>
+                </div>
+                
+                <button type="submit" class="btn" style="width: 100%;">{{ texts.confirm_appointment }}</button>
+            </form>
+            
+            <!-- Success/Error Messages will be inserted here by JavaScript -->
+            
+            <div style="margin-top: 2rem; text-align: center; color: #666;">
+                <p>
+                    {% if lang == 'he' %}
+                        לא קיבלת קוד? בדוק את תיבת הספאם או צור קשר איתנו
+                    {% else %}
+                        Didn't receive a code? Check your spam folder or contact us
+                    {% endif %}
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>{{ texts.phone }}:</strong> 
+                    <a href="tel:{{ shop_info.contact.phone }}" style="color: #d4af37;">{{ shop_info.contact.phone }}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Auto-format confirmation code input
+document.getElementById('confirmationCode').addEventListener('input', function(e) {
+    this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+});
+
+// Auto-submit when 6 characters are entered
+document.getElementById('confirmationCode').addEventListener('input', function(e) {
+    if (this.value.length === 6) {
+        // Small delay to show the complete code before submitting
+        setTimeout(() => {
+            document.getElementById('confirmForm').dispatchEvent(new Event('submit'));
+        }, 500);
+    }
+});
+</script>
+{% endblock %}
